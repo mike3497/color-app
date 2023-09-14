@@ -14,10 +14,14 @@
           :style="{ backgroundColor: color.hex }"
           class="flex justify-center items-end py-8"
         >
-          <div class="text-center" :style="{ color: getTextColor(color.hex) }">
+          <button
+            class="text-center"
+            :style="{ color: getTextColor(color.hex) }"
+            @click="onColorClicked(color.hex)"
+          >
             <h1 class="font-bold">{{ color.hex.replace('#', '').toUpperCase() }}</h1>
             <p class="text-sm">{{ color.name }}</p>
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -50,6 +54,10 @@ onKeyStroke(' ', (e) => {
   e.preventDefault();
   generateColors();
 });
+
+const onColorClicked = (color: string) => {
+  navigator.clipboard.writeText(color);
+};
 
 const generateColors = () => {
   const randomColor = random().toHex();
