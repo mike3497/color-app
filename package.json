@@ -12,6 +12,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueuse/core": "^10.4.1",
+    "color-2-name": "^1.1.1",
+    "colord": "^2.9.3",
+    "nanoid": "^5.0.1",
     "pinia": "^2.1.6",
     "vue": "^3.3.4"
   },
