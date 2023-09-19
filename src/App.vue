@@ -35,7 +35,7 @@
   <GenericToast :isVisible="isToastVisible">
     <div class="flex items-center">
       <span class="material-symbols-outlined mr-2"> check_circle </span>
-      <span>Color copied to the clipboard!</span>
+      <span>{{ copiedColor }} copied to the clipboard!</span>
     </div>
   </GenericToast>
 </template>
@@ -54,6 +54,7 @@ import GenericToast from '@/components/shared/GenericToast.vue';
 extend([harmonies, a11yPlugin]);
 
 const colors = ref<Color[]>([]);
+const copiedColor = ref<string>('');
 const isToastVisible = ref<boolean>(false);
 
 onKeyStroke(' ', (e) => {
@@ -62,6 +63,7 @@ onKeyStroke(' ', (e) => {
 });
 
 const onColorClicked = (color: string) => {
+  copiedColor.value = color;
   navigator.clipboard.writeText(color);
   isToastVisible.value = true;
   setTimeout(() => (isToastVisible.value = false), 1000);
