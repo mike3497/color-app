@@ -14,14 +14,12 @@
           :style="{ backgroundColor: color.hex }"
           class="flex justify-center items-end py-8"
         >
-          <button
-            class="text-center"
-            :style="{ color: getTextColor(color.hex) }"
-            @click="onColorClicked(color.hex)"
-          >
-            <h1 class="font-bold">{{ color.hex.replace('#', '').toUpperCase() }}</h1>
+          <div class="flex flex-col items-center" :style="{ color: getTextColor(color.hex) }">
+            <button class="px-4 py-1 mb-2 rounded-lg" @click="onColorClicked(color.hex)">
+              <h1 class="font-bold">{{ color.hex.replace('#', '').toUpperCase() }}</h1>
+            </button>
             <p class="text-sm">{{ color.name }}</p>
-          </button>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +32,12 @@
       </div>
     </footer>
   </div>
+  <GenericToast :isVisible="isToastVisible">
+    <div class="flex items-center">
+      <span class="material-symbols-outlined mr-2"> check_circle </span>
+      <span>Color copied to the clipboard!</span>
+    </div>
+  </GenericToast>
 </template>
 
 <script setup lang="ts">
@@ -45,10 +49,12 @@ import type { Color } from '@/models/color';
 import { nanoid } from 'nanoid';
 import { closest } from 'color-2-name';
 import { onKeyStroke } from '@vueuse/core';
+import GenericToast from '@/components/shared/GenericToast.vue';
 
 extend([harmonies, a11yPlugin]);
 
 const colors = ref<Color[]>([]);
+const isToastVisible = ref<boolean>(false);
 
 onKeyStroke(' ', (e) => {
   e.preventDefault();
@@ -57,6 +63,8 @@ onKeyStroke(' ', (e) => {
 
 const onColorClicked = (color: string) => {
   navigator.clipboard.writeText(color);
+  isToastVisible.value = true;
+  setTimeout(() => (isToastVisible.value = false), 1000);
 };
 
 const generateColors = () => {
