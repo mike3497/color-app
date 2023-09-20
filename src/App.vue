@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <footer class="p-4">
+    <footer class="bg-zinc-800 text-zinc-400 p-4">
       <div>
         <p class="text-sm">
           &copy; Copyright 2023
