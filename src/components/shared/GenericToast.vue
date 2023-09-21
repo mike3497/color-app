@@ -1,7 +1,7 @@
 <template>
   <Transition>
     <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
-      <div class="bg-gray-800 text-white rounded-full px-6 py-2">
+      <div class="bg-zinc-600 text-white rounded-full px-6 py-2">
         <slot></slot>
       </div>
     </div>
