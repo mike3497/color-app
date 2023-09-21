@@ -15,12 +15,12 @@
     </div>
     <AppFooter />
   </div>
-  <GenericToast :isVisible="isToastVisible">
+  <BaseToast :backgroundColor="copiedColor" :isVisible="isToastVisible">
     <div class="flex items-center">
       <span class="material-symbols-outlined mr-2"> check_circle </span>
       <span>{{ copiedColor }} copied to the clipboard!</span>
     </div>
-  </GenericToast>
+  </BaseToast>
 </template>
 
 <script setup lang="ts">
@@ -33,7 +33,7 @@ import type { Color } from '@/models/color';
 import { nanoid } from 'nanoid';
 import { closest } from 'color-2-name';
 import { onKeyStroke } from '@vueuse/core';
-import GenericToast from '@/components/shared/GenericToast.vue';
+import BaseToast from '@/components/shared/BaseToast.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import BaseColor from './components/BaseColor.vue';
