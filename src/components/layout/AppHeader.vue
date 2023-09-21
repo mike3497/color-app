@@ -6,6 +6,6 @@
         <h1>Colorify</h1>
       </div>
     </div>
-    <p class="p-4">Press spacebar to generate color palettes!</p>
+    <p class="p-4">Press the spacebar to generate color palettes!</p>
   </header>
 </template>
