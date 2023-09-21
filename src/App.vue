@@ -18,8 +18,8 @@
         </div>
       </div>
     </div>
+    <AppFooter />
   </div>
-  <AppFooter />
   <GenericToast :isVisible="isToastVisible">
     <div class="flex items-center">
       <span class="material-symbols-outlined mr-2"> check_circle </span>
