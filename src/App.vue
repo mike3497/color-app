@@ -7,14 +7,9 @@
           v-for="color in colors"
           :key="color.id"
           :style="{ backgroundColor: color.hex }"
-          class="flex justify-center items-end py-8"
+          class="flex"
         >
-          <div class="flex flex-col items-center" :style="{ color: getTextColor(color.hex) }">
-            <button class="px-4 py-1 mb-2 rounded-lg" @click="onColorClicked(color.hex)">
-              <h1 class="font-bold">{{ color.hex.replace('#', '').toUpperCase() }}</h1>
-            </button>
-            <p class="text-sm">{{ color.name }}</p>
-          </div>
+          <BaseColor :color="color" @colorCopied="onColorCopied" />
         </div>
       </div>
     </div>
@@ -33,6 +28,7 @@ import { onMounted, ref } from 'vue';
 import { colord, random, extend } from 'colord';
 import harmonies from 'colord/plugins/harmonies';
 import a11yPlugin from 'colord/plugins/a11y';
+import mix from 'colord/plugins/mix';
 import type { Color } from '@/models/color';
 import { nanoid } from 'nanoid';
 import { closest } from 'color-2-name';
@@ -40,8 +36,9 @@ import { onKeyStroke } from '@vueuse/core';
 import GenericToast from '@/components/shared/GenericToast.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
+import BaseColor from './components/BaseColor.vue';
 
-extend([harmonies, a11yPlugin]);
+extend([harmonies, a11yPlugin, mix]);
 
 const colors = ref<Color[]>([]);
 const copiedColor = ref<string>('');
@@ -52,10 +49,9 @@ onKeyStroke(' ', (e) => {
   generateColors();
 });
 
-const onColorClicked = (color: string) => {
-  copiedColor.value = color;
-  navigator.clipboard.writeText(color);
+const onColorCopied = (color: string) => {
   isToastVisible.value = true;
+  copiedColor.value = color.toUpperCase();
   setTimeout(() => (isToastVisible.value = false), 1000);
 };
 
@@ -64,26 +60,35 @@ const generateColors = () => {
   const color = colord(randomColor);
 
   colors.value = color.harmonies('double-split-complementary').map((item) => {
+    const shades = item.shades(10).filter((shade) => shade.toHex() !== item.toHex());
+    const tints = item.tints(10).reverse();
+
     const newColor: Color = {
       id: nanoid(),
       hex: item.toHex(),
-      name: closest(item.toHex()).name
+      name: closest(item.toHex()).name,
+      shades: shades.map((item) => {
+        const newColor: Color = {
+          id: nanoid(),
+          hex: item.toHex(),
+          name: closest(item.toHex()).name
+        };
+
+        return newColor;
+      }),
+      tints: tints.map((item) => {
+        const newColor: Color = {
+          id: nanoid(),
+          hex: item.toHex(),
+          name: closest(item.toHex()).name
+        };
+
+        return newColor;
+      })
     };
 
     return newColor;
   });
-};
-
-const getTextColor = (backgroundColor: string): string => {
-  const color = colord(backgroundColor);
-  const blackTextContrastRatio = color.contrast('#000000');
-  const whiteTextContrastRatio = color.contrast('#FFFFFF');
-
-  if (blackTextContrastRatio > whiteTextContrastRatio) {
-    return '#000000';
-  }
-
-  return '#FFFFFF';
 };
 
 onMounted(() => {
