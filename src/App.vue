@@ -1,14 +1,6 @@
 <template>
   <div class="flex flex-col h-screen">
-    <header>
-      <div class="p-4 border-b border-b-zinc-200">
-        <div class="flex items-center gap-2 text-2xl font-bold">
-          <span class="material-symbols-outlined">palette</span>
-          <h1>Colorify</h1>
-        </div>
-      </div>
-      <p class="p-4">Press spacebar to generate color palettes!</p>
-    </header>
+    <AppHeader />
     <div class="flex-1">
       <div class="grid grid-cols-5 h-full">
         <div
@@ -26,15 +18,8 @@
         </div>
       </div>
     </div>
-    <footer class="bg-zinc-800 text-zinc-400 p-4">
-      <div>
-        <p class="text-sm">
-          &copy; Copyright 2023
-          <a class="underline" href="https://michaelcarillon.com/">Michael Carillon</a>
-        </p>
-      </div>
-    </footer>
   </div>
+  <AppFooter />
   <GenericToast :isVisible="isToastVisible">
     <div class="flex items-center">
       <span class="material-symbols-outlined mr-2"> check_circle </span>
@@ -53,6 +38,8 @@ import { nanoid } from 'nanoid';
 import { closest } from 'color-2-name';
 import { onKeyStroke } from '@vueuse/core';
 import GenericToast from '@/components/shared/GenericToast.vue';
+import AppHeader from '@/components/layout/AppHeader.vue';
+import AppFooter from '@/components/layout/AppFooter.vue';
 
 extend([harmonies, a11yPlugin]);
 
