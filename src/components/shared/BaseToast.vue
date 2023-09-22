@@ -1,14 +1,16 @@
 <template>
-  <Transition>
-    <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
-      <div
-        class="rounded-full px-6 py-2 drop-shadow-lg"
-        :style="{ backgroundColor, color: textColor }"
-      >
-        <slot></slot>
+  <Teleport to="#toast">
+    <Transition>
+      <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
+        <div
+          class="rounded-full px-6 py-2 drop-shadow-lg"
+          :style="{ backgroundColor, color: textColor }"
+        >
+          <slot></slot>
+        </div>
       </div>
-    </div>
-  </Transition>
+    </Transition>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
