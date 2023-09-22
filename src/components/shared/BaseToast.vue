@@ -2,8 +2,8 @@
   <Transition>
     <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
       <div
-        class="rounded-full px-6 py-2 border-2"
-        :style="{ backgroundColor, color: textColor, borderColor: textColor }"
+        class="rounded-full px-6 py-2 drop-shadow-lg"
+        :style="{ backgroundColor, color: textColor }"
       >
         <slot></slot>
       </div>
