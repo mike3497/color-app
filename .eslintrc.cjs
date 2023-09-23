@@ -13,7 +13,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    'vue/attribute-hyphenation': 'never',
-    'vue/v-on-event-hyphenation': 'never'
+    'vue/attribute-hyphenation': 'off',
+    'vue/v-on-event-hyphenation': 'off'
   }
 };

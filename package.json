@@ -12,6 +12,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
     "@vueuse/core": "^10.4.1",
     "color-2-name": "^1.1.1",
     "colord": "^2.9.3",

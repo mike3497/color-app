@@ -2,12 +2,12 @@
   <div class="flex flex-col h-screen">
     <AppHeader />
     <div class="flex-1">
-      <div class="grid grid-cols-5 h-full">
+      <div class="flex h-full">
         <div
           v-for="color in colors"
           :key="color.id"
           :style="{ backgroundColor: color.hex }"
-          class="flex"
+          class="flex flex-1"
         >
           <BaseColor :color="color" @colorCopied="onColorCopied" />
         </div>
@@ -16,8 +16,8 @@
     <AppFooter />
   </div>
   <BaseToast :backgroundColor="copiedColor" :isVisible="isToastVisible">
-    <div class="flex items-center">
-      <span class="material-symbols-outlined mr-2"> check_circle </span>
+    <div>
+      <i class="fa-solid fa-circle-check pr-2"></i>
       <span>{{ copiedColor }} copied to the clipboard!</span>
     </div>
   </BaseToast>
@@ -37,8 +37,11 @@ import BaseToast from '@/components/shared/BaseToast.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import BaseColor from './components/BaseColor.vue';
+import { useRootStore } from '@/stores/rootStore';
 
 extend([harmonies, a11yPlugin, mix]);
+
+const rootStore = useRootStore();
 
 const colors = ref<Color[]>([]);
 const copiedColor = ref<string>('');
@@ -59,7 +62,7 @@ const generateColors = () => {
   const randomColor = random().toHex();
   const color = colord(randomColor);
 
-  colors.value = color.harmonies('double-split-complementary').map((item) => {
+  colors.value = color.harmonies(rootStore.harmonyMethod).map((item) => {
     const shades = item.shades(10).filter((shade) => shade.toHex() !== item.toHex());
     const tints = item.tints(10).reverse();
 
