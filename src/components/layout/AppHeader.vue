@@ -4,7 +4,13 @@
       <h1 class="text-2xl font-bold"><i class="fa-solid fa-palette pr-2"></i>Colorify</h1>
     </div>
     <div class="flex justify-between items-center p-4">
-      <p>Press the spacebar to generate color palettes!</p>
+      <p class="hidden md:block">Press the spacebar to generate color palettes!</p>
+      <button
+        class="bg-blue-500 text-white px-6 py-2 rounded-lg md:hidden"
+        @click="$emit('generateClicked')"
+      >
+        Generate
+      </button>
       <button
         class="hover:bg-zinc-100 px-3 py-2 rounded-lg"
         @click="isGenerateMethodModalVisible = true"
@@ -40,6 +46,8 @@ import BaseModal from '@/components/shared/BaseModal.vue';
 import { useRootStore } from '@/stores/rootStore';
 import type { HarmonyType } from 'colord/plugins/harmonies';
 import { ref } from 'vue';
+
+defineEmits(['generateClicked']);
 
 const rootStore = useRootStore();
 

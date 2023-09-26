@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col w-full h-full items-center justify-end pb-8"
+    class="flex flex-col flex-1 items-center justify-center md:justify-end md:pb-8"
     :style="{ color: getTextColor(color.hex) }"
   >
     <button class="px-4 py-1 mb-2 rounded-lg" @click="onColorClicked(color.hex)">

@@ -1,8 +1,8 @@
 <template>
   <div class="flex flex-col h-screen">
-    <AppHeader />
+    <AppHeader @generateClicked="generateColors" />
     <div class="flex-1">
-      <div class="flex h-full">
+      <div class="flex flex-col flex-1 md:flex-row h-full">
         <div
           v-for="color in colors"
           :key="color.id"
