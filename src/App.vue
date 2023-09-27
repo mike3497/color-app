@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-screen">
+  <div class="flex flex-col h-[100dvh]">
     <AppHeader @generateClicked="generateColors" />
     <div class="flex-1">
       <div class="flex flex-col flex-1 md:flex-row h-full">
