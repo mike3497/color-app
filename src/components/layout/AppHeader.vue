@@ -1,10 +1,10 @@
 <template>
   <header>
-    <div class="p-4 border-b border-b-zinc-200">
+    <div class="flex gap-2 items-center p-4 border-b border-b-zinc-200">
       <h1 class="text-2xl font-bold"><i class="fa-solid fa-palette pr-2"></i>Colorify</h1>
-    </div>
-    <div class="flex justify-between items-center p-4">
-      <p class="hidden md:block">Press the spacebar to generate color palettes!</p>
+      <p class="flex-1 text-center hidden md:block">
+        Press the spacebar to generate color palettes!
+      </p>
       <button
         class="bg-blue-500 text-white px-6 py-2 rounded-lg md:hidden"
         @click="$emit('generateClicked')"
@@ -47,7 +47,7 @@ import { useRootStore } from '@/stores/rootStore';
 import type { HarmonyType } from 'colord/plugins/harmonies';
 import { ref } from 'vue';
 
-defineEmits(['generateClicked']);
+const emit = defineEmits(['generateClicked']);
 
 const rootStore = useRootStore();
 
@@ -55,6 +55,7 @@ const isGenerateMethodModalVisible = ref<boolean>(false);
 
 const onHarmonyClicked = (harmony: string) => {
   rootStore.harmonyMethod = harmony as HarmonyType;
+  emit('generateClicked');
 };
 
 const harmonies = [
