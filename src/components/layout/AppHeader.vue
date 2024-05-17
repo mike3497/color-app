@@ -3,7 +3,12 @@
     <div class="flex gap-2 items-center p-4 border-b border-b-zinc-200">
       <h1 class="text-2xl font-bold"><i class="fa-solid fa-palette pr-2"></i>Colorify</h1>
       <p class="flex-1 text-center hidden md:block">
-        Press the spacebar to generate color palettes!
+        Press
+        <kbd
+          class="px-4 py-1.5 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg"
+          >Spacebar</kbd
+        >
+        to generate color palettes!
       </p>
       <button
         class="bg-blue-500 text-white px-6 py-2 rounded-lg md:hidden"
