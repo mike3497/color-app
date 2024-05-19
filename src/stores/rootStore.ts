@@ -1,13 +1,13 @@
 import type { Color } from '@/models/color';
+import { colord, extend, random } from 'colord';
+import a11yPlugin from 'colord/plugins/a11y';
 import type { HarmonyType } from 'colord/plugins/harmonies';
+import harmonies from 'colord/plugins/harmonies';
+import mix from 'colord/plugins/mix';
+import namesPlugin from 'colord/plugins/names';
 import { nanoid } from 'nanoid';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import { colord, random, extend } from 'colord';
-import harmonies from 'colord/plugins/harmonies';
-import a11yPlugin from 'colord/plugins/a11y';
-import mix from 'colord/plugins/mix';
-import namesPlugin from 'colord/plugins/names';
 
 export const useRootStore = defineStore('rootStore', () => {
   extend([harmonies, a11yPlugin, mix, namesPlugin]);

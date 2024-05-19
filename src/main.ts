@@ -1,10 +1,10 @@
-import './assets/main.css';
-import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
+import '@/assets/main.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 
-import { createApp } from 'vue';
+import App from '@/App.vue';
 import { createPinia } from 'pinia';
-import App from './App.vue';
+import { createApp } from 'vue';
 
 const app = createApp(App);
 

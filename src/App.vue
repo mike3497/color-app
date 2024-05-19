@@ -26,12 +26,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-import { onKeyStroke } from '@vueuse/core';
-import BaseToast from '@/components/shared/BaseToast.vue';
-import AppHeader from '@/components/layout/AppHeader.vue';
-import AppFooter from '@/components/layout/AppFooter.vue';
 import BaseColor from '@/components/BaseColor.vue';
+import AppFooter from '@/components/layout/AppFooter.vue';
+import AppHeader from '@/components/layout/AppHeader.vue';
+import BaseToast from '@/components/shared/BaseToast.vue';
 import { useRootStore } from '@/stores/rootStore';
+import { onKeyStroke } from '@vueuse/core';
 
 const rootStore = useRootStore();
 

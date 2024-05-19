@@ -32,9 +32,9 @@
 </template>
 
 <script setup lang="ts">
+import SettingsModal from '@/components/SettingsModal.vue';
 import { useRootStore } from '@/stores/rootStore';
 import { ref } from 'vue';
-import SettingsModal from '@/components/SettingsModal.vue';
 
 const rootStore = useRootStore();
 
