@@ -2,18 +2,21 @@
   <Teleport to="#modal">
     <Transition name="modal">
       <div
-        v-show="isVisible"
+        v-show="isOpen"
         class="flex justify-center items-center w-screen h-screen fixed top-0 left-0 bg-zinc-500/50"
       >
         <Transition name="modal-inner">
-          <div v-show="isVisible" class="relative bg-white w-full md:w-1/2 mx-4 rounded-lg">
-            <div class="flex justify-between items-center border-b border-b-zinc-200 p-2">
+          <div v-show="isOpen" class="relative bg-white w-full md:w-1/2 mx-4 rounded-lg">
+            <div class="flex justify-between items-center border-b border-b-zinc-200 p-4">
               <h1 class="font-bold">{{ heading }}</h1>
-              <button class="hover:bg-zinc-100 px-3 py-2 rounded-lg" @click="$emit('closeClicked')">
+              <button
+                class="bg-zinc-100 hover:bg-zinc-200 px-3 py-2 rounded-lg"
+                @click="onCloseClicked"
+              >
                 <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
-            <div class="p-8">
+            <div class="p-4">
               <slot></slot>
             </div>
           </div>
@@ -24,18 +27,20 @@
 </template>
 
 <script setup lang="ts">
-defineEmits(['closeClicked']);
+import { defineModel } from 'vue';
 
 defineProps({
   heading: {
     type: String,
     required: true
-  },
-  isVisible: {
-    type: Boolean,
-    required: true
   }
 });
+
+const isOpen = defineModel<boolean>({ required: true });
+
+const onCloseClicked = () => {
+  isOpen.value = false;
+}
 </script>
 
 <style scoped>

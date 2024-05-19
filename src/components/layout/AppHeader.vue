@@ -14,7 +14,7 @@
       </div>
       <button
         class="flex items-center gap-2 bg-zinc-100 hover:bg-zinc-200 px-3 py-2 rounded-lg"
-        @click="isGenerateMethodModalVisible = true"
+        @click="isSettingsModalOpen = true"
       >
         <i class="fa-solid fa-gear"></i><span>Settings</span>
       </button>
@@ -22,58 +22,25 @@
     <div class="p-4 md:hidden">
       <button
         class="bg-blue-500 text-white px-6 py-2 rounded-lg w-full"
-        @click="$emit('generateClicked')"
+        @click="onGenerateClicked"
       >
         Generate
       </button>
     </div>
   </header>
-  <BaseModal
-    heading="Generate Method"
-    :isVisible="isGenerateMethodModalVisible"
-    @closeClicked="isGenerateMethodModalVisible = false"
-  >
-    <div class="flex flex-col gap-2">
-      <button
-        v-for="harmony in harmonies"
-        :key="harmony"
-        class="px-6 py-2 rounded-lg"
-        :class="{
-          'bg-blue-500 text-white hover:bg-blue-600': rootStore.harmonyMethod === harmony,
-          'bg-zinc-100 text-black hover:bg-zinc-200': rootStore.harmonyMethod !== harmony
-        }"
-        @click="onHarmonyClicked(harmony)"
-      >
-        {{ harmony }}
-      </button>
-    </div>
-  </BaseModal>
+  <SettingsModal v-model="isSettingsModalOpen" />
 </template>
 
 <script setup lang="ts">
-import BaseModal from '@/components/shared/BaseModal.vue';
 import { useRootStore } from '@/stores/rootStore';
-import type { HarmonyType } from 'colord/plugins/harmonies';
 import { ref } from 'vue';
-
-const emit = defineEmits(['generateClicked']);
+import SettingsModal from '@/components/SettingsModal.vue';
 
 const rootStore = useRootStore();
 
-const isGenerateMethodModalVisible = ref<boolean>(false);
+const isSettingsModalOpen = ref<boolean>(false);
 
-const onHarmonyClicked = (harmony: string) => {
-  rootStore.harmonyMethod = harmony as HarmonyType;
-  emit('generateClicked');
-};
-
-const harmonies = [
-  'analogous',
-  'complementary',
-  'double-split-complementary',
-  'rectangle',
-  'split-complementary',
-  'tetradic',
-  'triadic'
-];
+const onGenerateClicked = () => {
+  rootStore.generateColors();
+}
 </script>

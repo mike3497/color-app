@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col h-[100dvh]">
-    <AppHeader @generateClicked="generateColors" />
+    <AppHeader />
     <div class="flex-1">
       <div class="flex flex-col flex-1 md:flex-row h-full">
         <div
-          v-for="color in colors"
+          v-for="color in rootStore.colors"
           :key="color.id"
           :style="{ backgroundColor: color.hex }"
           class="flex flex-1"
@@ -25,31 +25,22 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { colord, random, extend } from 'colord';
-import harmonies from 'colord/plugins/harmonies';
-import a11yPlugin from 'colord/plugins/a11y';
-import mix from 'colord/plugins/mix';
-import type { Color } from '@/models/color';
-import { nanoid } from 'nanoid';
+
 import { onKeyStroke } from '@vueuse/core';
 import BaseToast from '@/components/shared/BaseToast.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
-import BaseColor from './components/BaseColor.vue';
+import BaseColor from '@/components/BaseColor.vue';
 import { useRootStore } from '@/stores/rootStore';
-import namesPlugin from 'colord/plugins/names';
-
-extend([harmonies, a11yPlugin, mix, namesPlugin]);
 
 const rootStore = useRootStore();
 
-const colors = ref<Color[]>([]);
 const copiedColor = ref<string>('');
 const isToastVisible = ref<boolean>(false);
 
 onKeyStroke(' ', (e) => {
   e.preventDefault();
-  generateColors();
+  rootStore.generateColors();
 });
 
 const onColorCopied = (color: string) => {
@@ -58,43 +49,7 @@ const onColorCopied = (color: string) => {
   setTimeout(() => (isToastVisible.value = false), 1000);
 };
 
-const generateColors = () => {
-  const randomColor = random().toHex();
-  const color = colord(randomColor);
-
-  colors.value = color.harmonies(rootStore.harmonyMethod).map((item) => {
-    const shades = item.shades(10).filter((shade) => shade.toHex() !== item.toHex());
-    const tints = item.tints(10).reverse();
-
-    const newColor: Color = {
-      id: nanoid(),
-      hex: item.toHex(),
-      name: item.toName({ closest: true }) ?? '',
-      shades: shades.map((item) => {
-        const newColor: Color = {
-          id: nanoid(),
-          hex: item.toHex(),
-          name: item.toName({ closest: true }) ?? ''
-        };
-
-        return newColor;
-      }),
-      tints: tints.map((item) => {
-        const newColor: Color = {
-          id: nanoid(),
-          hex: item.toHex(),
-          name: item.toName({ closest: true }) ?? ''
-        };
-
-        return newColor;
-      })
-    };
-
-    return newColor;
-  });
-};
-
 onMounted(() => {
-  generateColors();
+  rootStore.generateColors();
 });
 </script>
