@@ -3,8 +3,8 @@
     <Transition>
       <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
         <div
-          class="rounded-full px-6 py-2 drop-shadow-lg"
-          :style="{ backgroundColor, color: textColor }"
+          class="rounded-full px-6 py-2 drop-shadow-lg border-2"
+          :style="{ backgroundColor, borderColor: color, color }"
         >
           <slot></slot>
         </div>
@@ -28,7 +28,7 @@ const props = defineProps({
   }
 });
 
-const textColor = computed<string>(() => {
+const color = computed<string>(() => {
   const color = colord(props.backgroundColor);
   const blackTextContrastRatio = color.contrast('#000000');
   const whiteTextContrastRatio = color.contrast('#FFFFFF');
