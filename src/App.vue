@@ -31,15 +31,15 @@ import a11yPlugin from 'colord/plugins/a11y';
 import mix from 'colord/plugins/mix';
 import type { Color } from '@/models/color';
 import { nanoid } from 'nanoid';
-import { closest } from 'color-2-name';
 import { onKeyStroke } from '@vueuse/core';
 import BaseToast from '@/components/shared/BaseToast.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import BaseColor from './components/BaseColor.vue';
 import { useRootStore } from '@/stores/rootStore';
+import namesPlugin from 'colord/plugins/names';
 
-extend([harmonies, a11yPlugin, mix]);
+extend([harmonies, a11yPlugin, mix, namesPlugin]);
 
 const rootStore = useRootStore();
 
@@ -69,12 +69,12 @@ const generateColors = () => {
     const newColor: Color = {
       id: nanoid(),
       hex: item.toHex(),
-      name: closest(item.toHex()).name,
+      name: item.toName({ closest: true }) ?? '',
       shades: shades.map((item) => {
         const newColor: Color = {
           id: nanoid(),
           hex: item.toHex(),
-          name: closest(item.toHex()).name
+          name: item.toName({ closest: true }) ?? ''
         };
 
         return newColor;
@@ -83,7 +83,7 @@ const generateColors = () => {
         const newColor: Color = {
           id: nanoid(),
           hex: item.toHex(),
-          name: closest(item.toHex()).name
+          name: item.toName({ closest: true }) ?? ''
         };
 
         return newColor;
