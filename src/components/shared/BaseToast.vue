@@ -1,55 +1,25 @@
 <template>
-  <Teleport to="#toast">
-    <Transition>
-      <div v-if="isVisible" class="fixed flex items-center justify-center inset-x-0 bottom-8">
-        <div
-          class="rounded-full px-6 py-2 drop-shadow-lg border-2"
-          :style="{ backgroundColor, borderColor: color, color }"
-        >
-          <slot></slot>
-        </div>
-      </div>
-    </Transition>
-  </Teleport>
+  <div
+    class="py-4 px-8 border-2 rounded-full"
+    :style="{
+      backgroundColor: toast.backgroundColor,
+      borderColor: toast.textColor,
+      color: toast.textColor
+    }"
+    role="alert"
+  >
+    <p>{{ toast.message }}</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { colord } from 'colord';
-import { computed } from 'vue';
+import type { Toast } from '@/models/toast';
+import type { PropType } from 'vue';
 
-const props = defineProps({
-  backgroundColor: {
-    type: String,
-    default: '#ffffff'
-  },
-  isVisible: {
-    type: Boolean,
-    default: false
+defineProps({
+  toast: {
+    type: Object as PropType<Toast>,
+    required: true
   }
-});
-
-const color = computed<string>(() => {
-  const color = colord(props.backgroundColor);
-  const blackTextContrastRatio = color.contrast('#000000');
-  const whiteTextContrastRatio = color.contrast('#FFFFFF');
-
-  if (blackTextContrastRatio > whiteTextContrastRatio) {
-    return '#000000';
-  }
-
-  return '#FFFFFF';
 });
 </script>
-
-<style>
-.v-enter-active,
-.v-leave-active {
-  transition: all 0.25s ease-out;
-}
-
-.v-enter-from,
-.v-leave-to {
-  transform: translateY(-32px);
-  opacity: 0;
-}
-</style>

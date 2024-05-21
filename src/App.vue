@@ -15,28 +15,22 @@
     </div>
     <AppFooter />
   </div>
-  <BaseToast :backgroundColor="copiedColor" :isVisible="isToastVisible">
-    <div>
-      <i class="fa-solid fa-circle-check pr-2"></i>
-      <span>{{ copiedColor }} copied to the clipboard!</span>
-    </div>
-  </BaseToast>
+  <ToastContainer />
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-
 import BaseColor from '@/components/BaseColor.vue';
+import ToastContainer from '@/components/ToastContainer.vue';
 import AppFooter from '@/components/layout/AppFooter.vue';
 import AppHeader from '@/components/layout/AppHeader.vue';
-import BaseToast from '@/components/shared/BaseToast.vue';
+import { useToast } from '@/composables/useToast';
+import { getBlackOrWhiteTextColor } from '@/helpers/colorHelper';
 import { useRootStore } from '@/stores/rootStore';
 import { onKeyStroke } from '@vueuse/core';
+import { onMounted } from 'vue';
 
 const rootStore = useRootStore();
-
-const copiedColor = ref<string>('');
-const isToastVisible = ref<boolean>(false);
+const toast = useToast();
 
 onKeyStroke(' ', (e) => {
   e.preventDefault();
@@ -44,9 +38,9 @@ onKeyStroke(' ', (e) => {
 });
 
 const onColorCopied = (color: string) => {
-  isToastVisible.value = true;
-  copiedColor.value = color.toUpperCase();
-  setTimeout(() => (isToastVisible.value = false), 1000);
+  const textColor = getBlackOrWhiteTextColor(color);
+
+  toast.open(`${color.toUpperCase()} copied to clipboard!`, { backgroundColor: color, textColor });
 };
 
 onMounted(() => {
