@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col flex-1 items-center justify-center md:justify-end md:pb-8"
-    :style="{ color: getTextColor(color.hex) }"
+    :style="{ color: textColor }"
   >
     <button class="px-4 py-1 mb-2 rounded-lg" @click="onColorClicked(color.hex)">
       <h1 class="font-bold">{{ color.hex.replace('#', '').toUpperCase() }}</h1>
@@ -11,33 +11,23 @@
 </template>
 
 <script setup lang="ts">
+import { getBlackOrWhiteTextColor } from '@/helpers/colorHelper';
 import type { Color } from '@/models/color';
-import { colord } from 'colord';
-import { type PropType } from 'vue';
+import { computed, type PropType } from 'vue';
 
 const emit = defineEmits(['colorCopied']);
 
-defineProps({
+const props = defineProps({
   color: {
     type: Object as PropType<Color>,
     required: true
   }
 });
 
+const textColor = computed<string>(() => getBlackOrWhiteTextColor(props.color.hex));
+
 const onColorClicked = (color: string) => {
   navigator.clipboard.writeText(color);
   emit('colorCopied', color);
-};
-
-const getTextColor = (backgroundColor: string): string => {
-  const color = colord(backgroundColor);
-  const blackTextContrastRatio = color.contrast('#000000');
-  const whiteTextContrastRatio = color.contrast('#FFFFFF');
-
-  if (blackTextContrastRatio > whiteTextContrastRatio) {
-    return '#000000';
-  }
-
-  return '#FFFFFF';
 };
 </script>
